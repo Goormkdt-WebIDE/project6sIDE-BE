@@ -65,7 +65,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         aws deploy create-deployment \
-        --application-name IdEprojectApplication \
+        --application-name GoormIDEProject \
         --deployment-group-name DeployGroupForIdeProject \
         --file-exists-behavior OVERWRITE \
         --s3-location bucket=project-five-star-ide-project,bundleType=zip,key=project5sIDE.zip \
