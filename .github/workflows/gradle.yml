@@ -53,11 +53,10 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_EC2_METADATA_DISABLED: true
-      run: |
-        aws s3 sync \
-          --region ap-northeast-2 \
-          build s3://project-five-star-ide-project\
-          --delete
-      working-directory: ./client // 디렉토리 위치 설정
+      run: |  
+        aws s3 cp \
+        --region ap-northeast-2 \
+        --acl private \ 
+        ./project5sIDE.zip s3://project-five-star-ide-project/
 
 
