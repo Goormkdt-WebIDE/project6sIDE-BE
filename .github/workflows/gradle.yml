@@ -51,7 +51,7 @@ jobs:
     # S3 Bucket으로 copy
     - name: Deliver to AWS S3
       env:
-        AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+        AWS_PUBLIC_KEY: ${{ secrets.AWS_PUBLIC_KEY }}
         AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
       run: |
         aws s3 cp \
