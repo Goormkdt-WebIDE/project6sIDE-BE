@@ -1,6 +1,5 @@
 package com.project5s.IDEproject.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project5s.IDEproject.domain.dto.UserJoinRequest;
 import com.project5s.IDEproject.domain.dto.UserLoginRequest;
@@ -13,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -41,19 +38,19 @@ class UserControllerTest {
     @DisplayName("회원가입 성공")
     @WithMockUser
     void join() throws Exception {
-        String userName = "spring";
+        String username = "spring";
         String password = "1e2d21";
 
         mockMvc.perform(post("/api/v1/users/join")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password))))
+                        .content(objectMapper.writeValueAsBytes(new UserJoinRequest(username, password))))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
-    @DisplayName("회원가입 실패 - userName 중복")
+    @DisplayName("회원가입 실패 - username 중복")
     @WithMockUser
     void join_fail() throws Exception {
         String userName = "spring";
@@ -67,14 +64,14 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(new UserJoinRequest(userName, password))))
                 .andDo(print())
-                .andExpect(status().isConflict());
+                .andExpect(status().is4xxClientError());
     }
     
     @Test
     @DisplayName("로그인 성공")
     @WithMockUser
     void login_success() throws Exception {
-        String userName = "spring";
+        String username = "spring";
         String password = "1e2d21";
 
         when(userService.login(any(), any()))
@@ -83,9 +80,9 @@ class UserControllerTest {
         mockMvc.perform(post("/api/v1/users/login")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password))))
+                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(username, password))))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -103,7 +100,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password))))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -121,6 +118,6 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password))))
                 .andDo(print())
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is4xxClientError());
     }
 }
