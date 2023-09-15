@@ -1,6 +1,6 @@
-package com.project5s.IDEproject.configuration;
+package com.project5s.IDEproject.config;
 
-import com.project5s.IDEproject.service.UserService;
+import com.project5s.IDEproject.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,15 +16,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserService userService;
-
     @Value("${jwt.secret}")
     private String secretKey;
 
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
 
-        return (web) -> web.ignoring().antMatchers("/api/**");
+        return (web) -> web.ignoring().antMatchers("/api/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**");
     }
 
     @Bean
@@ -40,7 +38,7 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new JwtFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }
