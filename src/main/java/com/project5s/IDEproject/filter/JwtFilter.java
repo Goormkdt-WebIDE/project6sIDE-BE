@@ -1,6 +1,5 @@
-package com.project5s.IDEproject.configuration;
+package com.project5s.IDEproject.filter;
 
-import com.project5s.IDEproject.service.UserService;
 import com.project5s.IDEproject.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,6 @@ import java.util.List;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final UserService userService;
     private final String secretKey;
 
     @Override
@@ -50,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         //userName Token에서 꺼내기
-        String userName = JwtUtil.getUserName(token, secretKey);
+        String userName = JwtUtil.getUsername(token, secretKey);
         log.info("userName:{}", userName);
 
         //권한 부여
