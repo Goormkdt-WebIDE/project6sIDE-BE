@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    public static String getUserName(String token, String secretKey) {
+    public static String getUsername(String token, String secretKey) {
         return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token)
                 .getBody().get("userName", String.class);
     }
