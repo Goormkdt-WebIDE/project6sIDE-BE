@@ -67,4 +67,10 @@ public class UserService {
 
         selectedUser.updatePassword(encoder.encode(newPassword));
     }
+
+    public void resetDB(){
+        userRepository.deleteAll();
+    }
+
+
 }

@@ -38,4 +38,13 @@ public class UserController {
         userService.resetPassword(dto.username(), dto.password(), dto.newPassword());
         return ResponseEntity.ok().body("비밀번호가 변경되었습니다.");
     }
+
+    @Operation(summary = "데이터베이스 리셋")
+    @GetMapping("/resetDB")
+    public ResponseEntity<String> reset() {
+
+        return ResponseEntity.ok().body("DB 리셋이 완료되었습니다.");
+    }
+
+
 }
