@@ -1,8 +1,8 @@
 package com.project5s.IDEproject.controller;
 
-import com.project5s.IDEproject.domain.dto.UserJoinRequest;
-import com.project5s.IDEproject.domain.dto.UserLoginRequest;
-import com.project5s.IDEproject.domain.dto.UserResetRequest;
+import com.project5s.IDEproject.dto.UserJoinRequest;
+import com.project5s.IDEproject.dto.UserLoginRequest;
+import com.project5s.IDEproject.dto.UserResetRequest;
 import com.project5s.IDEproject.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

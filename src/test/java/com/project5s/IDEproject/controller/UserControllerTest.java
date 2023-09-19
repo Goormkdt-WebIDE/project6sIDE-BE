@@ -1,8 +1,8 @@
 package com.project5s.IDEproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project5s.IDEproject.domain.dto.UserJoinRequest;
-import com.project5s.IDEproject.domain.dto.UserLoginRequest;
+import com.project5s.IDEproject.dto.UserJoinRequest;
+import com.project5s.IDEproject.dto.UserLoginRequest;
 import com.project5s.IDEproject.exception.AppException;
 import com.project5s.IDEproject.exception.ErrorCode;
 import com.project5s.IDEproject.service.UserService;

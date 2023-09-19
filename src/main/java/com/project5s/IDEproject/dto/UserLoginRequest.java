@@ -1,4 +1,4 @@
-package com.project5s.IDEproject.domain.dto;
+package com.project5s.IDEproject.dto;
 
 public record UserLoginRequest(String username, String password) {
 }
