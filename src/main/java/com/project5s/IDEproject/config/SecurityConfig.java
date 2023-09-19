@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .build();
     }
 
+
     // 스프링 서버 전역적으로 CORS 설정
     @Configuration
     public class WebConfig implements WebMvcConfigurer {
