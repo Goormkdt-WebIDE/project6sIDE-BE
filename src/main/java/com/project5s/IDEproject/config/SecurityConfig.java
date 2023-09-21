@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/user/signUp", "/user/login", "/user/resetPassword").permitAll()
+                .antMatchers("/user/signUp", "/user/login", "/user/resetPassword","/user/resetDB").permitAll()
                 .antMatchers(HttpMethod.POST, "/**").authenticated()
                 .and()
                 .sessionManagement()
