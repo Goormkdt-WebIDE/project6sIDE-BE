@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum ErrorCode {
-    USERNAME_DUPLICATED(HttpStatus.CONFLICT, ""),
+    USERNAME_DUPLICATED(HttpStatus.CONFLICT, "중복된 이메일 혹은 중복된 이름입니다."),
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, ""),
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "");
 
