@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,7 +27,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
 
-        return (web) -> web.ignoring().antMatchers("/api/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**");
+        return (web) -> web.ignoring().antMatchers("/user/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**");
     }
 
     @Bean
@@ -34,8 +37,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/api/users/join", "/api/users/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/**").authenticated()
+                .antMatchers("/user/signUp", "/user/login", "/user/resetPassword","/user/resetDB").permitAll()
+                .antMatchers(HttpMethod.POST, "/**").authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -43,6 +46,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     // 스프링 서버 전역적으로 CORS 설정
     @Configuration
@@ -52,7 +56,7 @@ public class SecurityConfig {
             registry.addMapping("/**")
                     .allowedOrigins("http://localhost:5173", "https://localhost:5173", "http://localhost:8080") // 허용할 출처
                     .allowedMethods("GET", "POST") // 허용할 HTTP method
-                    .allowCredentials(true) // 쿠키 인증 요청 허용
+                    .allowCredentials(true) // 쿠키 인증 요청 허용:
                     .maxAge(30000); // 원하는 시간만큼 pre-flight 리퀘스트를 캐싱
         }
     }
