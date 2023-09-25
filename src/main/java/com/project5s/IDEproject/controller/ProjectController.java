@@ -37,8 +37,15 @@ public class ProjectController {
         return ResponseEntity.ok().body("ok");
     }
 
+    @Operation(summary = "프로젝트 삭제 API", description = "프로젝트 삭제")
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<?> deleteProject(@PathVariable String projectId) {
+        projectService.deleteProject(projectId);
+        return ResponseEntity.ok().body("ok");
+    }
+
     @Operation(summary = "디렉토리 저장 & 업데이트 API", description = "최상단 디렉토리 저장 & 업데이트")
-    @PostMapping("/v2/directories/{projectId}")
+    @PostMapping("/v2/{projectId}/directories")
     //TODO if front ready to use token, Use Authentication -> @AuthenticationPrincipal
     public ResponseEntity<?> saveDirectory(@PathVariable String projectId,
                                            @RequestBody DirectorySaveReqDto dto) {
@@ -54,11 +61,25 @@ public class ProjectController {
         return ResponseEntity.ok().body("ok");
     }
 
+    @Operation(summary = "디렉토리 삭제 API", description = "디렉토리 삭제")
+    @DeleteMapping("/v2/directories/{directoryId}")
+    public ResponseEntity<?> deleteDirectory(@PathVariable String directoryId) {
+        projectService.deleteDirectory(directoryId);
+        return ResponseEntity.ok().body("ok");
+    }
+
     @Operation(summary = "디렉토리 안에 New 코드 저장 & 업데이트 API")
     @PostMapping("/v2/directories/{directoryId}/code")
     public ResponseEntity<?> saveCodeInDirectory(@PathVariable String directoryId,
                                                  @RequestBody CodeSaveReqDto dto) {
         codeService.saveCodeInDirectory(directoryId, dto);
+        return ResponseEntity.ok().body("ok");
+    }
+
+    @Operation(summary = "프로젝트 & 디렉토리 코드 삭제 API")
+    @DeleteMapping("/v2/{codeId}/code")
+    public ResponseEntity<?> deleteCode(@PathVariable String codeId) {
+        codeService.deleteCode(codeId);
         return ResponseEntity.ok().body("ok");
     }
 }

@@ -33,7 +33,7 @@ public class ProjectService {
 
     public void saveDirectory(String projectId, DirectorySaveReqDto dto) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND, "can't find project"));
+                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND, ""));
         Directory directory = new Directory(dto);
         directoryRepository.save(directory);
         project.saveDirectory(directory);
@@ -48,5 +48,13 @@ public class ProjectService {
         directoryRepository.save(directory);
         targetDirectory.getDirectories().add(directory);
         directoryRepository.save(targetDirectory);
+    }
+
+    public void deleteDirectory(String directoryId) {
+        directoryRepository.deleteById(directoryId);
+    }
+
+    public void deleteProject(String projectId) {
+        projectRepository.deleteById(projectId);
     }
 }

@@ -17,7 +17,6 @@ public class CodeService {
     private final CodeRepository codeRepository;
     private final DirectoryRepository directoryRepository;
 
-
     public void saveCodeInDirectory(String directoryId, CodeSaveReqDto dto) {
         Directory targetDirectory = directoryRepository.findById(directoryId).orElseThrow();
         Code code = new Code(dto);
@@ -25,5 +24,9 @@ public class CodeService {
         codeRepository.save(code);
         targetDirectory.saveCode(code);
         directoryRepository.save(targetDirectory);
+    }
+
+    public void deleteCode(String codeId) {
+        codeRepository.deleteById(codeId);
     }
 }
