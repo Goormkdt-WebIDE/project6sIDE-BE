@@ -54,8 +54,8 @@ public class SecurityConfig {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173", "https://localhost:5173", "http://localhost:8080") // 허용할 출처
-                    .allowedMethods("GET", "POST") // 허용할 HTTP method
+                    .allowedOrigins("http://localhost:5173", "https://localhost:5173", "http://localhost:8080","https://project6side.netlify.app") // 허용할 출처
+                    .allowedMethods("GET", "POST","DELETE","PATCH") // 허용할 HTTP method
                     .allowCredentials(true) // 쿠키 인증 요청 허용:
                     .maxAge(30000); // 원하는 시간만큼 pre-flight 리퀘스트를 캐싱
         }
