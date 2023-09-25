@@ -16,9 +16,12 @@ public class Code {
     @Id
     private String id;
 
+    private String name;
+
     private String text;
 
     public Code(CodeSaveReqDto dto) {
+        this.name = dto.name();
         this.text = dto.text();
     }
 }
