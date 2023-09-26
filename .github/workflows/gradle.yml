@@ -37,9 +37,9 @@ jobs:
       # gradle 실행 권한 세팅 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew     
-      # gradle 실행 권한 세팅 
+      # keystore 실행 권한 세팅 
       - name: Grant read permission for gradlew
-        run: chmod +r src/main/resources/keystore.p12
+        run: chmod +r ./src/main/resources/keystore.p12
         
       #application 파일 설정
       - name: Set application.properties for main
