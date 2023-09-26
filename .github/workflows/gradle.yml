@@ -42,12 +42,14 @@ jobs:
       #   run: chmod +r ./src/main/resources/keystore.p12
         
       #application, keystore 파일 설정
-      - name: Set application.properties for main
+      - name: Set application.properties, keystore for main
         run: |
           # main 설정 파일 디렉토리로 이동
           cd ./src/main/resources
           touch ./application.properties
           echo "${{ secrets.APPLICATION }}" >> ./application.properties
+          touch ./keystore.base64
+          echo "${{ secrets.KEYSTORE }}" >> ./keystore.base64
         shell: bash
 
 
