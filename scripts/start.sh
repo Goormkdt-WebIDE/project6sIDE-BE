@@ -14,7 +14,7 @@ TIME_NOW=$(date)
 echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
 cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
 echo "$TIME_NOW > $P12_FILE 파일 복사" >> $DEPLOY_LOG
-echo pwd >> $DEPLOY_LOG
+pwd >> $DEPLOY_LOG
 cp $PROJECT_ROOT/keystore.p12 $P12_FILE
 
 # jar 파일 실행
