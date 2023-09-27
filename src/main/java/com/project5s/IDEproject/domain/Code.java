@@ -18,10 +18,16 @@ public class Code {
 
     private String name;
 
+    private String extension;
+
     private String text;
 
     public Code(CodeSaveReqDto dto) {
+        if(!dto.name().contains(".")) {
+            throw new IllegalArgumentException("확장자 정보가 없습니다.");
+        }
         this.name = dto.name();
+        this.extension = dto.name().split("\\.")[1];
         this.text = dto.text();
     }
 }
