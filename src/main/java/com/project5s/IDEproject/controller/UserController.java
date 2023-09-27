@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "유저 API")
@@ -20,21 +22,21 @@ public class UserController {
 
     @Operation(summary = "회원가입 API")
     @PostMapping("/signUp")
-    public ResponseEntity<String> join(@RequestBody UserJoinRequest dto) {
+    public ResponseEntity<String> join(@RequestBody @Valid UserJoinRequest dto) {
         userService.join(dto.username(), dto.email(), dto.password());
         return ResponseEntity.ok().body("회원가입이 완료되었습니다.");
     }
 
     @Operation(summary = "로그인 API & ACCESS_TOKEN 발급")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginRequest dto) {
+    public ResponseEntity<String> login(@RequestBody @Valid UserLoginRequest dto) {
         String token = userService.login(dto.email(), dto.password());
         return ResponseEntity.ok().body(token);
     }
 
     @Operation(summary = "비밀번호 리셋 API")
     @PostMapping("/resetPassword")
-    public ResponseEntity<String> reset(@RequestBody UserResetRequest dto) {
+    public ResponseEntity<String> reset(@RequestBody @Valid UserResetRequest dto) {
         userService.resetPassword(dto.email(), dto.password(), dto.newPassword());
         return ResponseEntity.ok().body("비밀번호가 변경되었습니다.");
     }
