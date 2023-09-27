@@ -18,10 +18,13 @@ public class Code {
 
     private String name;
 
+    private String extension;
+
     private String text;
 
     public Code(CodeSaveReqDto dto) {
         this.name = dto.name();
+        this.extension = dto.extension();
         this.text = dto.text();
     }
 }
