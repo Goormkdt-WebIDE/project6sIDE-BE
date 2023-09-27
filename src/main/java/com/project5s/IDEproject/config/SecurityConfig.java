@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -27,7 +24,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
 
-        return (web) -> web.ignoring().antMatchers("/user/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**");
+        return (web) -> web.ignoring().antMatchers("/user/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/api/**");
     }
 
     @Bean
