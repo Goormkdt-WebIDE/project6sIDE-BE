@@ -27,11 +27,18 @@ public class Project {
     @DBRef
     private List<Directory> directories = new ArrayList<>();
 
+    @DBRef
+    private List<Code> codes = new ArrayList<>();
+
     public Project(ProjectSaveReqDto dto) {
         this.name = dto.name();
         this.email = dto.email();
     }
     public void saveDirectory(Directory directory) {
         this.directories.add(directory);
+    }
+
+    public void saveCode(Code code) {
+        this.codes.add(code);
     }
 }

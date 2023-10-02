@@ -44,12 +44,21 @@ public class ProjectController {
         return ResponseEntity.ok().body("ok");
     }
 
-    @Operation(summary = "디렉토리 저장 & 업데이트 API", description = "최상단 디렉토리 저장 & 업데이트")
+    @Operation(summary = "최상단 디렉토리 저장 & 업데이트 API", description = "최상단 디렉토리 저장 & 업데이트")
     @PostMapping("/v2/{projectId}/directories")
     //TODO if front ready to use token, Use Authentication -> @AuthenticationPrincipal
     public ResponseEntity<?> saveDirectory(@PathVariable String projectId,
                                            @RequestBody DirectorySaveReqDto dto) {
         projectService.saveDirectory(projectId, dto);
+        return ResponseEntity.ok().body("ok");
+    }
+
+    @Operation(summary = "최상단 코드 저장 & 업데이트 API", description = "최상단 코드 저장 & 업데이트")
+    @PostMapping("/v2/{projectId}/code")
+    //TODO if front ready to use token, Use Authentication -> @AuthenticationPrincipal
+    public ResponseEntity<?> saveCode(@PathVariable String projectId,
+                                      @RequestBody CodeSaveReqDto dto) {
+        codeService.saveCode(projectId, dto);
         return ResponseEntity.ok().body("ok");
     }
 

@@ -21,8 +21,7 @@ import java.util.List;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final String secretKey;
-
+    private final JwtUtil jwtUtil;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -41,14 +40,14 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = authorization.split(" ")[1];
 
         // token expired 여부
-        if (JwtUtil.isExpired(token, secretKey)) {
+        if (jwtUtil.isExpired(token)) {
             log.error("Token이 만료 되었습니다.");
             filterChain.doFilter(request, response);
             return;
         }
 
         //userName Token에서 꺼내기
-        String userName = JwtUtil.getUsername(token, secretKey);
+        String userName = jwtUtil.getUsername(token);
         log.info("userName:{}", userName);
 
         //권한 부여
