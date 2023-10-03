@@ -1,8 +1,8 @@
 package com.project5s.IDEproject.config;
 
 import com.project5s.IDEproject.filter.JwtFilter;
+import com.project5s.IDEproject.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,8 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private final JwtUtil jwtUtil;
 
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
@@ -40,7 +39,7 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
