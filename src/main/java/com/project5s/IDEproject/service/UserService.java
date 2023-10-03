@@ -7,8 +7,6 @@ import com.project5s.IDEproject.repository.UserRepository;
 import com.project5s.IDEproject.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +19,6 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
-    private final JwtUtil jwtUtil;
 
     private static final Long ACCESS_TOKEN_EXPIRED_TIME_MS = 1000 * 60 * 60L;
 
