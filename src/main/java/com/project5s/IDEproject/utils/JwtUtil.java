@@ -3,8 +3,6 @@ package com.project5s.IDEproject.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +15,9 @@ import java.util.Date;
 public class JwtUtil {
 
     @Value("${jwt.secret}")
-    private  String secretKey;
+    private String secretKey;
 
-    public String getUsername(String token) {
+    public  String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token)
                 .getBody().get("userName", String.class);
     }
