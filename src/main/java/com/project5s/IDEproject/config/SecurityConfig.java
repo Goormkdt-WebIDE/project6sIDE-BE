@@ -1,6 +1,7 @@
 package com.project5s.IDEproject.config;
 
 import com.project5s.IDEproject.filter.JwtFilter;
+import com.project5s.IDEproject.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,13 +22,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private final JwtUtil jwtUtil;
 
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
 
-        return (web) -> web.ignoring().antMatchers("/api/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**");
+        return (web) -> web.ignoring().antMatchers("/user/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/ws/**", "/api/**");
     }
 
     @Bean
@@ -37,15 +37,16 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/api/users/join", "/api/users/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/**").authenticated()
+                .antMatchers("/user/signUp", "/user/login", "/user/resetPassword").permitAll()
+                .antMatchers(HttpMethod.POST, "/**").authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     // 스프링 서버 전역적으로 CORS 설정
     @Configuration
@@ -55,7 +56,7 @@ public class SecurityConfig {
             registry.addMapping("/**")
                     .allowedOrigins("http://localhost:5173", "https://localhost:5173", "http://localhost:8080") // 허용할 출처
                     .allowedMethods("GET", "POST") // 허용할 HTTP method
-                    .allowCredentials(true) // 쿠키 인증 요청 허용
+                    .allowCredentials(true) // 쿠키 인증 요청 허용:
                     .maxAge(30000); // 원하는 시간만큼 pre-flight 리퀘스트를 캐싱
         }
     }
