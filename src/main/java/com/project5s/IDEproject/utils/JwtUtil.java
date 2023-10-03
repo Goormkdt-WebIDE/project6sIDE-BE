@@ -6,6 +6,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -19,14 +22,14 @@ public class JwtUtil {
                 .getBody().get("userName", String.class);
     }
 
-    public  boolean isExpired(String token) {
+    public boolean isExpired(String token) {
         return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token)
                 .getBody().getExpiration().before(new Date());
     }
 
-    public  String createToken(String userName, long expireTimeMs) {
+    public String createToken(String email, long expireTimeMs) {
         Claims claims = Jwts.claims(); //일종의 map
-        claims.put("userName", userName);
+        claims.put("email", email);
 
         return Jwts.builder()
                 .setClaims(claims)

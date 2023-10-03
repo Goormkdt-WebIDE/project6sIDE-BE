@@ -3,6 +3,7 @@ package com.project5s.IDEproject.config;
 import com.project5s.IDEproject.filter.JwtFilter;
 import com.project5s.IDEproject.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,7 +27,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
 
-        return (web) -> web.ignoring().antMatchers("/user/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/api/**");
+        return (web) -> web.ignoring().antMatchers("/user/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/ws/**", "/api/**");
     }
 
     @Bean
@@ -33,7 +37,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/user/signUp", "/user/login", "/user/resetPassword","/user/resetDB").permitAll()
+                .antMatchers("/user/signUp", "/user/login", "/user/resetPassword").permitAll()
                 .antMatchers(HttpMethod.POST, "/**").authenticated()
                 .and()
                 .sessionManagement()
