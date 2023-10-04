@@ -91,4 +91,11 @@ public class ProjectController {
         codeService.deleteCode(codeId);
         return ResponseEntity.ok().body("ok");
     }
+
+    @Operation(summary = "프로젝트 & 디렉토리 코드 업데이트 API")
+    @PatchMapping("/v2/{codeId}/code")
+    public ResponseEntity<?> updateCode(@PathVariable String codeId, @RequestBody CodeSaveReqDto dto) {
+        codeService.updateCode(codeId, dto);
+        return ResponseEntity.ok().body("ok");
+    }
 }
