@@ -1,6 +1,7 @@
 package com.project5s.IDEproject.service;
 
 import com.project5s.IDEproject.controller.dto.DirectorySaveReqDto;
+import com.project5s.IDEproject.controller.dto.ProjectByUserGetResDto;
 import com.project5s.IDEproject.controller.dto.ProjectGetReqDto;
 import com.project5s.IDEproject.controller.dto.ProjectSaveReqDto;
 import com.project5s.IDEproject.domain.Directory;
@@ -13,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,6 +28,13 @@ public class ProjectService {
     public Project getProject(ProjectGetReqDto dto) {
         return projectRepository.findProjectByEmailAndName(dto.email(), dto.projectName())
                 .orElseThrow();
+    }
+
+    public List<ProjectByUserGetResDto> getProjects(String email) {
+        return projectRepository.findProjectsByEmail(email)
+                .stream()
+                .map(Project::ofResponse)
+                .collect(Collectors.toList());
     }
 
     public void save(ProjectSaveReqDto dto) {
@@ -56,5 +67,13 @@ public class ProjectService {
 
     public void deleteProject(String projectId) {
         projectRepository.deleteById(projectId);
+    }
+
+    public void updateDirectory(String directoryId, DirectorySaveReqDto dto) {
+        Directory targetDirectory = directoryRepository.findById(directoryId)
+                .orElseThrow();
+
+        targetDirectory.update(dto);
+        directoryRepository.save(targetDirectory);
     }
 }

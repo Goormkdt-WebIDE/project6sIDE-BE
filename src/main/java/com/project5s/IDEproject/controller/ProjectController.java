@@ -10,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,6 +30,14 @@ public class ProjectController {
     public ResponseEntity<?> getProject(@RequestBody ProjectGetReqDto dto) {
         Project project = projectService.getProject(dto);
         return ResponseEntity.ok().body(project);
+    }
+
+    @Operation(summary = "사용자 프로젝트 전체 조회 API")
+    @GetMapping("/user")
+    public ResponseEntity<?> getProjects() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<ProjectByUserGetResDto> projects = projectService.getProjects(name);
+        return ResponseEntity.ok().body(projects);
     }
 
     @Operation(summary = "프로젝트 저장 & 업데이트 API")
@@ -50,6 +61,15 @@ public class ProjectController {
     public ResponseEntity<?> saveDirectory(@PathVariable String projectId,
                                            @RequestBody DirectorySaveReqDto dto) {
         projectService.saveDirectory(projectId, dto);
+        return ResponseEntity.ok().body("ok");
+    }
+
+    @Operation(summary = "디렉토리 업데이트 API", description = "디렉토리 업데이트")
+    @PatchMapping("/v2/{directoryId}/directories")
+    //TODO if front ready to use token, Use Authentication -> @AuthenticationPrincipal
+    public ResponseEntity<?> updateDirectory(@PathVariable String directoryId,
+                                             @RequestBody DirectorySaveReqDto dto) {
+        projectService.updateDirectory(directoryId, dto);
         return ResponseEntity.ok().body("ok");
     }
 

@@ -35,4 +35,8 @@ public class Directory {
     public void saveCode(Code code) {
         this.codes.add(code);
     }
+
+    public void update(DirectorySaveReqDto dto) {
+        this.name = dto.name();
+    }
 }
