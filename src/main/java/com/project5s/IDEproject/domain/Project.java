@@ -1,5 +1,6 @@
 package com.project5s.IDEproject.domain;
 
+import com.project5s.IDEproject.controller.dto.ProjectByUserGetResDto;
 import com.project5s.IDEproject.controller.dto.ProjectSaveReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,5 +41,9 @@ public class Project {
 
     public void saveCode(Code code) {
         this.codes.add(code);
+    }
+
+    public ProjectByUserGetResDto ofResponse() {
+        return new ProjectByUserGetResDto(this.id, this.name, this.email);
     }
 }
