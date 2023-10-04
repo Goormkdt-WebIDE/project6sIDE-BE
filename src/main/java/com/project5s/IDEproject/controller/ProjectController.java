@@ -22,15 +22,15 @@ public class ProjectController {
     private final CodeService codeService;
     private final ProjectService projectService;
 
-    @Operation(summary = "프로젝트 전체 구조 조회 API", description = "Swagger 문서 변환 Bug(@RequestBody 적용안됨) BODY JSON 으로 요청시 정상 작동")
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "프로젝트 전체 구조 조회 API")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProject(@RequestBody ProjectGetReqDto dto) {
         Project project = projectService.getProject(dto);
         return ResponseEntity.ok().body(project);
     }
 
     @Operation(summary = "프로젝트 저장 & 업데이트 API")
-    @PostMapping
+    @PostMapping("/save")
     //TODO if front ready to use token, Use Authentication -> @AuthenticationPrincipal
     public ResponseEntity<?> saveProject(@RequestBody ProjectSaveReqDto dto) {
         projectService.save(dto);
