@@ -7,7 +7,9 @@ import com.project5s.IDEproject.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Tag(name = "유저 API")
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
