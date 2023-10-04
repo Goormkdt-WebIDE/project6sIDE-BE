@@ -20,8 +20,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
-    private static final Long ACCESS_TOKEN_EXPIRED_TIME_MS = 1000 * 60 * 60L;
-
     public String join(String username, String email, String password) {
 
         // username, email 중복 check
@@ -53,7 +51,7 @@ public class UserService {
             throw new AppException(ErrorCode.INVALID_PASSWORD, "잘못된 패스워드입니다.");
         }
 
-        String token = jwtUtil.createToken(selectedUser.getEmail(), ACCESS_TOKEN_EXPIRED_TIME_MS);
+        String token = jwtUtil.createToken(selectedUser.getEmail());
         // 앞에서 Exception 안났으면 토큰 발행
         return token;
     }
