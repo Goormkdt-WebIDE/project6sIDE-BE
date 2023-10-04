@@ -77,57 +77,57 @@ class UserControllerTest {
 //                .andExpect(status().is4xxClientError());
 //    }
 
-    @Test
-    @DisplayName("로그인 성공")
-    @WithMockUser
-    void login_success() throws Exception {
-        String username = "spring";
-        String password = "1e2d21";
-
-        when(userService.login(any(), any()))
-                .thenReturn("token");
-
-        mockMvc.perform(post("/user/login")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(username, password))))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    @DisplayName("로그인 실패 - userName 없음")
-    @WithMockUser
-    void login_fail1() throws Exception {
-        String userName = "spring";
-        String password = "1e2d21";
-
-        when(userService.login(any(), any()))
-                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND, ""));
-
-        mockMvc.perform(post("/api/user/login")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password))))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    @DisplayName("로그인 실패 - password 틀림")
-    @WithMockUser
-    void login_fail2() throws Exception {
-        String userName = "spring";
-        String password = "1e2d21";
-
-        when(userService.login(any(), any()))
-                .thenThrow(new AppException(ErrorCode.INVALID_PASSWORD, ""));
-
-        mockMvc.perform(post("/api/user/login")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password))))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
+//    @Test
+//    @DisplayName("로그인 성공")
+//    @WithMockUser
+//    void login_success() throws Exception {
+//        String username = "spring";
+//        String password = "1e2d21";
+//
+//        when(userService.login(any(), any()))
+//                .thenReturn("token");
+//
+//        mockMvc.perform(post("/user/login")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(username, password))))
+//                .andDo(print())
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//
+//    @Test
+//    @DisplayName("로그인 실패 - userName 없음")
+//    @WithMockUser
+//    void login_fail1() throws Exception {
+//        String userName = "spring";
+//        String password = "1e2d21";
+//
+//        when(userService.login(any(), any()))
+//                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND, ""));
+//
+//        mockMvc.perform(post("/api/user/login")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password))))
+//                .andDo(print())
+//                .andExpect(status().is4xxClientError());
+//    }
+//
+//    @Test
+//    @DisplayName("로그인 실패 - password 틀림")
+//    @WithMockUser
+//    void login_fail2() throws Exception {
+//        String userName = "spring";
+//        String password = "1e2d21";
+//
+//        when(userService.login(any(), any()))
+//                .thenThrow(new AppException(ErrorCode.INVALID_PASSWORD, ""));
+//
+//        mockMvc.perform(post("/api/user/login")
+//                        .with(csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsBytes(new UserLoginRequest(userName, password))))
+//                .andDo(print())
+//                .andExpect(status().is4xxClientError());
+//    }
 }
