@@ -19,6 +19,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
+
     private static final Long ACCESS_TOKEN_EXPIRED_TIME_MS = 1000 * 60 * 60L;
 
     public String join(String username, String email, String password) {
