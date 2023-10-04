@@ -14,9 +14,11 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    public  String getUsername(String token) {
+    private static final Long ACCESS_TOKEN_EXPIRED_TIME_MS = 1000 * 60 * 60L;
+
+    public  String getEmail(String token) {
         return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token)
-                .getBody().get("userName", String.class);
+                .getBody().get("email", String.class);
     }
 
     public boolean isExpired(String token) {
@@ -24,15 +26,15 @@ public class JwtUtil {
                 .getBody().getExpiration().before(new Date());
     }
 
-    public String createToken(String email, long expireTimeMs) {
+    public String createToken(String email) {
         Claims claims = Jwts.claims(); //일종의 map
         claims.put("email", email);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expireTimeMs))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRED_TIME_MS))
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
                 .compact();
     }
 }
