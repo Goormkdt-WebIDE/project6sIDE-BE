@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Random;
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +27,22 @@ public class Code {
 
     public Code(CodeSaveReqDto dto) {
         if(!dto.name().contains(".")) {
-            throw new IllegalArgumentException("확장자 정보가 없습니다.");
+            this.name = dto.name();
+            this.extension = null;
+            this.text = dto.text();
+            return;
+        }
+        this.name = dto.name();
+        this.extension = dto.name().split("\\.")[1];
+        this.text = dto.text();
+    }
+
+    public void update(CodeSaveReqDto dto) {
+        if(!dto.name().contains(".")) {
+            this.name = dto.name();
+            this.extension = null;
+            this.text = dto.text();
+            return;
         }
         this.name = dto.name();
         this.extension = dto.name().split("\\.")[1];

@@ -44,4 +44,12 @@ public class CodeService {
         project.saveCode(code);
         projectRepository.save(project);
     }
+
+    public void updateCode(String codeId, CodeSaveReqDto dto) {
+        Code code = codeRepository.findById(codeId)
+                .orElseThrow(() -> new AppException(ErrorCode.CODE_NOT_FOUND, ErrorCode.CODE_NOT_FOUND.getMessage()));
+
+        code.update(dto);
+        codeRepository.save(code);
+    }
 }
