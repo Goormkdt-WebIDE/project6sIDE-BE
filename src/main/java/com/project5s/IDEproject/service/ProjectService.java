@@ -1,6 +1,6 @@
 package com.project5s.IDEproject.service;
 
-import com.project5s.IDEproject.controller.dto.DirectorySaveReqDto;
+import com.project5s.IDEproject.controller.dto.DirectoryReqDto;
 import com.project5s.IDEproject.controller.dto.ProjectByUserGetResDto;
 import com.project5s.IDEproject.controller.dto.ProjectGetReqDto;
 import com.project5s.IDEproject.controller.dto.ProjectSaveReqDto;
@@ -25,9 +25,9 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final DirectoryRepository directoryRepository;
 
-    public Project getProject(ProjectGetReqDto dto) {
-        return projectRepository.findProjectByEmailAndName(dto.email(), dto.projectName())
-                .orElseThrow();
+    public Project getProject(String email, ProjectGetReqDto dto) {
+        return projectRepository.findProjectByEmailAndName(email, dto.projectName())
+                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL.getMessage()));
     }
 
     public List<ProjectByUserGetResDto> getProjects(String email) {
@@ -37,23 +37,29 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
-    public void save(ProjectSaveReqDto dto) {
-        Project project = new Project(dto);
+    public void save(String email, ProjectSaveReqDto dto) {
+        if(projectRepository.existsProjectByEmailAndName(email, dto.name())) {
+            throw new AppException(ErrorCode.PROJECT_NAME_DUPLICATED, ErrorCode.PROJECT_NAME_DUPLICATED.getMessage());
+        }
+        Project project = new Project(email, dto);
         projectRepository.save(project);
     }
 
-    public void saveDirectory(String projectId, DirectorySaveReqDto dto) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND, ""));
+    public void saveDirectory(String email, String projectId, DirectoryReqDto dto) {
+        Project project = projectRepository.findProjectByEmailAndId(email, projectId)
+                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL.getMessage()));
         Directory directory = new Directory(dto);
         directoryRepository.save(directory);
         project.saveDirectory(directory);
         projectRepository.save(project);
     }
 
-    public void saveDirectoryInDirectory(String directoryId, DirectorySaveReqDto dto) {
+    public void saveDirectoryInDirectory(String email, String projectId, String directoryId, DirectoryReqDto dto) {
+        if(!projectRepository.existsProjectByEmailAndId(email, projectId)) {
+            throw new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND.getMessage());
+        }
         Directory targetDirectory = directoryRepository.findById(directoryId)
-                .orElseThrow();
+                .orElseThrow(() -> new AppException(ErrorCode.DIRECTORY_NOT_FOUND, ErrorCode.DIRECTORY_NOT_FOUND.getMessage()));
 
         Directory directory = new Directory(dto);
         directoryRepository.save(directory);
@@ -61,18 +67,25 @@ public class ProjectService {
         directoryRepository.save(targetDirectory);
     }
 
-    public void deleteDirectory(String directoryId) {
+    public void deleteDirectory(String email, String projectId, String directoryId) {
+        if(!projectRepository.existsProjectByEmailAndId(email, projectId)) {
+            throw new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND.getMessage());
+        }
         directoryRepository.deleteById(directoryId);
     }
 
-    public void deleteProject(String projectId) {
-        projectRepository.deleteById(projectId);
+    public void deleteProject(String email, String projectId) {
+        Project project = projectRepository.findProjectByEmailAndId(email, projectId)
+                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND.getMessage()));
+        projectRepository.delete(project);
     }
 
-    public void updateDirectory(String directoryId, DirectorySaveReqDto dto) {
+    public void updateDirectory(String email, String projectId, String directoryId, DirectoryReqDto dto) {
+        if(!projectRepository.existsProjectByEmailAndId(email, projectId)) {
+            throw new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND.getMessage());
+        }
         Directory targetDirectory = directoryRepository.findById(directoryId)
-                .orElseThrow();
-
+                .orElseThrow(() -> new AppException(ErrorCode.DIRECTORY_NOT_FOUND, ErrorCode.DIRECTORY_NOT_FOUND.getMessage()));
         targetDirectory.update(dto);
         directoryRepository.save(targetDirectory);
     }
