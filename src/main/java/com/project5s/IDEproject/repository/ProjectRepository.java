@@ -10,5 +10,8 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends MongoRepository<Project, String> {
     Optional<Project> findProjectByEmailAndName(String email, String name);
+    Optional<Project> findProjectByEmailAndId(String email, String id);
+    boolean existsProjectByEmailAndId(String email, String id);
+    boolean existsProjectByEmailAndName(String email, String name);
     List<Project> findProjectsByEmail(String email);
 }
