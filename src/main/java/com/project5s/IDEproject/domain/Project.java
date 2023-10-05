@@ -31,9 +31,9 @@ public class Project {
     @DBRef
     private List<Code> codes = new ArrayList<>();
 
-    public Project(ProjectSaveReqDto dto) {
+    public Project(String email, ProjectSaveReqDto dto) {
         this.name = dto.name();
-        this.email = dto.email();
+        this.email = email;
     }
     public void saveDirectory(Directory directory) {
         this.directories.add(directory);
