@@ -22,7 +22,10 @@ public class CodeService {
     private final DirectoryRepository directoryRepository;
     private final ProjectRepository projectRepository;
 
-    public void saveCodeInDirectory(String directoryId, CodeSaveReqDto dto) {
+    public void saveCodeInDirectory(String email, String projectId, String directoryId, CodeSaveReqDto dto) {
+        if (!projectRepository.existsProjectByEmailAndId(email, projectId)) {
+            throw new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND.getMessage());
+        }
         Directory targetDirectory = directoryRepository.findById(directoryId).orElseThrow();
         Code code = new Code(dto);
 
@@ -31,13 +34,16 @@ public class CodeService {
         directoryRepository.save(targetDirectory);
     }
 
-    public void deleteCode(String codeId) {
+    public void deleteCode(String email, String projectId, String codeId) {
+        if (!projectRepository.existsProjectByEmailAndId(email, projectId)) {
+            throw new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND.getMessage());
+        }
         codeRepository.deleteById(codeId);
     }
 
-    public void saveCode(String projectId, CodeSaveReqDto dto) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND, ErrorCode.PROJECT_NOT_FOUND.getMessage()));
+    public void saveCode(String email, String projectId, CodeSaveReqDto dto) {
+        Project project = projectRepository.findProjectByEmailAndId(email, projectId)
+                .orElseThrow(() -> new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL.getMessage()));
 
         Code code = new Code(dto);
         codeRepository.save(code);
@@ -45,7 +51,10 @@ public class CodeService {
         projectRepository.save(project);
     }
 
-    public void updateCode(String codeId, CodeSaveReqDto dto) {
+    public void updateCode(String email, String projectId, String codeId, CodeSaveReqDto dto) {
+        if (!projectRepository.existsProjectByEmailAndId(email, projectId)) {
+            throw new AppException(ErrorCode.PROJECT_NOT_FOUND_BY_EMAIL, ErrorCode.PROJECT_NOT_FOUND.getMessage());
+        }
         Code code = codeRepository.findById(codeId)
                 .orElseThrow(() -> new AppException(ErrorCode.CODE_NOT_FOUND, ErrorCode.CODE_NOT_FOUND.getMessage()));
 
