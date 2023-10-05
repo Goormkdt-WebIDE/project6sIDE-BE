@@ -1,6 +1,6 @@
 package com.project5s.IDEproject.domain;
 
-import com.project5s.IDEproject.controller.dto.DirectorySaveReqDto;
+import com.project5s.IDEproject.controller.dto.DirectoryReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public class Directory {
     @DBRef
     private List<Code> codes = new ArrayList<>();
 
-    public Directory(DirectorySaveReqDto dto) {
+    public Directory(DirectoryReqDto dto) {
         this.name = dto.name();
     }
 
@@ -36,7 +36,7 @@ public class Directory {
         this.codes.add(code);
     }
 
-    public void update(DirectorySaveReqDto dto) {
+    public void update(DirectoryReqDto dto) {
         this.name = dto.name();
     }
 }
